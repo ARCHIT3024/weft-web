@@ -1,0 +1,118 @@
+/* Atkinson Hyperlegible — chosen for accessibility, not aesthetics. Designed by the
+   Braille Institute to disambiguate letterforms that commonly collide (I/l/1, O/0,
+   rn/m). WCAG 2.1 AA is a project requirement and the primary user is a 45-year-old
+   supervisor reading dense tables all day. Must precede the Tailwind import: CSS
+   requires @import before other rules. */
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Weft Web Dashboard — Design System
+   Colors from DECISIONS.md design tokens
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── Brand Colors ──────────────────────────────────────────────── */
+  --color-navy: #0F2A4A;
+  --color-navy-light: #1A3D6B;
+  --color-navy-dark: #0A1E36;
+
+  --color-teal: #0EA5A0;
+  --color-teal-light: #14D4CC;
+  --color-teal-dark: #0B8480;
+
+  --color-orange: #F59E0B;
+  --color-orange-light: #FBBF24;
+  --color-orange-dark: #D97706;
+
+  --color-success: #10B981;
+  --color-success-light: #34D399;
+  --color-success-dark: #059669;
+
+  --color-danger: #EF4444;
+  --color-danger-light: #F87171;
+  --color-danger-dark: #DC2626;
+
+  --color-info: #3B82F6;
+  --color-info-light: #60A5FA;
+  --color-info-dark: #2563EB;
+
+  /* ── Category colours ──────────────────────────────────────────
+     The spec colour-codes MAP MARKERS by category (status is carried by the
+     badge instead). Hues are spread far enough apart to stay separable, but
+     every marker also carries a category glyph — colour is never the only
+     signal (UX guideline `Accessibility / Color Only`, severity High). */
+  --color-cat-pothole: #B45309;
+  --color-cat-garbage: #65A30D;
+  --color-cat-water: #0284C7;
+  --color-cat-light: #CA8A04;
+  --color-cat-footpath: #7C3AED;
+  --color-cat-sewage: #BE123C;
+  --color-cat-other: #64748B;
+
+  /* ── Typography ────────────────────────────────────────────────── */
+  --font-sans: 'Atkinson Hyperlegible', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* ── Neutral Palette ───────────────────────────────────────────── */
+  --color-surface: #F8FAFC;
+  --color-surface-secondary: #F1F5F9;
+  --color-border: #E2E8F0;
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #64748B;
+  --color-text-muted: #94A3B8;
+
+  /* ── Spacing — density 8/10 (dense/dashboard) ──────────────────
+     8-32px rather than the 16-64px default. This is a triage console: more
+     rows visible without scrolling is worth more here than breathing room. */
+  --spacing-page: 1.25rem;
+  --spacing-dense-1: 0.5rem;
+  --spacing-dense-2: 0.75rem;
+  --spacing-dense-3: 1rem;
+  --spacing-dense-4: 1.5rem;
+  --spacing-dense-5: 2rem;
+  --row-height: 2.25rem;
+
+  /* ── Border Radius ─────────────────────────────────────────────── */
+  --radius-card: 0.75rem;
+  --radius-button: 0.5rem;
+  --radius-badge: 9999px;
+
+  /* ── Font Family ───────────────────────────────────────────────── */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Base Styles ─────────────────────────────────────────────────────── */
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* ── Leaflet Map Fix ─────────────────────────────────────────────────── */
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* ── Map pins ────────────────────────────────────────────────────────────
+   Leaflet's default marker is a bundled PNG referenced by a URL Vite does not
+   rewrite, so it 404s in a production build. DashboardPage renders a `divIcon`
+   carrying this class instead.
+
+   The fill is set inline, per marker, from the category colour tokens — the
+   spec colour-codes markers by CATEGORY, not status. Colour is not the only
+   channel: the legend, the popup and the accessible list beneath the map all
+   carry the category glyph and its text label. */
+.weft-pin {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--color-surface);
+  border-radius: 50%;
+  background: var(--color-text-muted);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
+}
